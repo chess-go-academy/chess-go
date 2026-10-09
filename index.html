@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Go Academy | أكاديمية الشطرنج للأطفال</title>
+    
+    <!-- استدعاء الخطوط والأيقونات -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- استدعاء Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#1a2a47', // الكحلي
+                            gold: '#d4af37', // الذهبي
+                            goldHover: '#b5952f',
+                            light: '#f8fafc',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .hero-pattern {
+            background-color: #1a2a47;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        /* تصميم زر الراديو المخفي للحاسبة */
+        .calculator-btn.active {
+            background-color: #1a2a47;
+            color: white;
+            border-color: #1a2a47;
+        }
+        .type-btn.active {
+            border-color: #1a2a47;
+            background-color: rgba(26, 42, 71, 0.05);
+            color: #1a2a47;
+        }
+    </style>
+</head>
+<body class="bg-brand-light font-sans text-gray-800 antialiased">
+
+    <nav class="bg-white shadow-md fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- تم زيادة ارتفاع النافبار إلى h-28 ليتناسب مع اللوجو الكبير -->
+            <div class="flex justify-between items-center h-28">
+                <!-- اللوجو -->
+                <div class="flex items-center">
+                    <a href="#">
+                        <!-- تم تكبير اللوجو إلى h-24 -->
+                        <img src="logo.jpg" alt="Chess Go Academy Logo" class="h-24 w-auto object-contain">
+                    </a>
+                </div>
+                
+                <!-- روابط الشاشات الكبيرة -->
+                <div class="hidden lg:flex space-x-8 space-x-reverse items-center text-sm font-bold text-brand-navy">
+                    <a href="#hero" class="hover:text-brand-gold transition-colors">الرئيسية</a>
+                    <a href="#features" class="hover:text-brand-gold transition-colors">المميزات</a>
+                    <a href="#courses" class="hover:text-brand-gold transition-colors">المستويات</a>
+                    <a href="#pricing" class="hover:text-brand-gold transition-colors">الأسعار والحجز</a>
+                    <a href="#faq" class="hover:text-brand-gold transition-colors">الأسئلة الشائعة</a>
+                </div>
+
+                <!-- زر التواصل السريع -->
+                <div class="hidden lg:flex">
+                    <a href="#contact" class="bg-brand-gold hover:bg-brand-goldHover text-white px-6 py-2.5 rounded-full font-bold transition-all shadow-lg">
+                        تواصل معنا
+                    </a>
+                </div>
+
+                <!-- زر القائمة المحمولة -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-brand-navy text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- القائمة المنسدلة للموبايل -->
+        <div id="mobile-menu" class="hidden bg-white shadow-lg absolute w-full left-0 border-t border-gray-100 flex-col py-4 px-6 space-y-4 font-bold text-brand-navy lg:hidden">
+            <a href="#hero" class="block">الرئيسية</a>
+            <a href="#features" class="block">المميزات</a>
+            <a href="#courses" class="block">المستويات</a>
+            <a href="#pricing" class="block">الأسعار والحجز</a>
+            <a href="#faq" class="block">الأسئلة الشائعة</a>
+            <a href="#contact" class="block text-brand-gold">تواصل معنا</a>
+        </div>
+    </nav>
+
+    <!-- تم تعديل البادينج العلوي pt-40 لتفادي تداخل النافبار الأكبر حجماً -->
+    <section id="hero" class="hero-pattern pt-40 pb-20 lg:pt-48 lg:pb-32 relative border-b-8 border-brand-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h1 class="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-tight mb-6">
+                ارتقِ بقدراتك الذهنية مع <br>
+                <span class="text-brand-gold mt-2 inline-block">Chess Go Academy</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto font-semibold leading-relaxed">
+                نصنع أبطال الغد بمنهجية علمية معتمدة
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#pricing" class="bg-brand-gold hover:bg-brand-goldHover text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-lg">
+                    احجز الدورة الآن
+                </a>
+                <a href="#courses" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-brand-navy px-8 py-4 rounded-full text-lg font-bold transition-all">
+                    تصفح المنهج
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-brand-navy mb-4">مميزات الأكاديمية</h2>
+                <div class="w-24 h-1.5 bg-brand-gold mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- الميزة 1 -->
+                <div class="bg-brand-light p-6 rounded-2xl border border-gray-100 hover:shadow-md transition text-center">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full shadow flex items-center justify-center text-brand-navy text-2xl mb-4">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-brand-navy">مدربين معتمدين</h3>
+                </div>
+                <!-- الميزة 2 -->
+                <div class="bg-brand-light p-6 rounded-2xl border border-gray-100 hover:shadow-md transition text-center">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full shadow flex items-center justify-center text-brand-navy text-2xl mb-4">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-brand-navy">متابعة دورية</h3>
+                </div>
+                <!-- الميزة 3 -->
+                <div class="bg-brand-light p-6 rounded-2xl border border-gray-100 hover:shadow-md transition text-center">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full shadow flex items-center justify-center text-brand-navy text-2xl mb-4">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-brand-navy">مسابقات لتحفيز الأعضاء</h3>
+                </div>
+                <!-- الميزة 4 -->
+                <div class="bg-brand-light p-6 rounded-2xl border border-gray-100 hover:shadow-md transition text-center">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full shadow flex items-center justify-center text-brand-navy text-2xl mb-4">
+                        <i class="fa-solid fa-chess"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-brand-navy">تدريب بالمنهج الهولندي</h3>
+                    <p class="text-sm text-gray-600 mt-2">وليس تدريب عشوائي</p>
+                </div>
+                <!-- الميزة 5 -->
+                <div class="bg-brand-light p-6 rounded-2xl border border-gray-100 hover:shadow-md transition text-center">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full shadow flex items-center justify-center text-brand-navy text-2xl mb-4">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-brand-navy">سرعة الرد</h3>
+                </div>
+                <!-- الميزة 6 -->
+                <div class="bg-brand-light p-6 rounded-2xl border border-gray-100 hover:shadow-md transition text-center">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full shadow flex items-center justify-center text-brand-navy text-2xl mb-4">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-brand-navy">تقارير بأداء ومستوى الطلاب</h3>
+                    <p class="text-sm text-gray-600 mt-2">بعد كل حصة</p>
+                </div>
+                <!-- الميزة 7 (بعرض الشاشة) -->
+                <div class="bg-brand-gold text-white p-6 rounded-2xl shadow-md transition text-center md:col-span-2 lg:col-span-3 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-3xl">
+                        <i class="fa-solid fa-certificate"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold">شهادة معتمدة لكل ليفل</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="courses" class="py-20 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-brand-navy mb-4">مستوياتنا التدريبية</h2>
+                <p class="text-gray-600">6 مستويات متدرجة من التأسيس إلى الاحتراف</p>
+                <div class="w-24 h-1.5 bg-brand-gold mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- ليفل 1 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div class="bg-brand-navy text-white text-center py-4 relative">
+                        <span class="absolute top-0 right-0 bg-brand-gold text-xs font-bold px-3 py-1 rounded-bl-lg">Level 1</span>
+                        <h3 class="text-xl font-black mt-2">لاعب التأسيس</h3>
+                        <p class="text-sm text-gray-300">Foundation Player</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-book-open text-brand-gold ml-1"></i> المحتوى:</h4>
+                            <p class="text-gray-600 text-sm">الرقعة والاتجاهات - حركة القطع - قواعد اللعبة - Check / Checkmate.</p>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-clipboard-check text-brand-gold ml-1"></i> متطلب الدخول:</h4>
+                            <p class="text-gray-600 text-sm">لا توجد خبرة سابقة مطلوبة (أو يعرف أسماء القطع).</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-bullseye text-green-600 ml-1"></i> الهدف:</h4>
+                            <p class="text-gray-700 text-sm font-semibold">يلعب مباراة كاملة بدون أخطاء أساسية أو حركات غير قانونية.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ليفل 2 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div class="bg-brand-navy text-white text-center py-4 relative">
+                        <span class="absolute top-0 right-0 bg-brand-gold text-xs font-bold px-3 py-1 rounded-bl-lg">Level 2</span>
+                        <h3 class="text-xl font-black mt-2">المهاجم التكتيكي</h3>
+                        <p class="text-sm text-gray-300">Tactical Attacker</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-book-open text-brand-gold ml-1"></i> المحتوى:</h4>
+                            <p class="text-gray-600 text-sm">الهجوم المزدوج - استغلال القطع غير المحمية - الشوكة والربط - كش مات في خطوتين.</p>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-clipboard-check text-brand-gold ml-1"></i> متطلب الدخول:</h4>
+                            <p class="text-gray-600 text-sm">اجتياز المستوى الأول (يتقن حركة القطع وقواعد الكش مات الأساسية).</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-bullseye text-green-600 ml-1"></i> الهدف:</h4>
+                            <p class="text-gray-700 text-sm font-semibold">القدرة على رؤية التهديدات المباشرة واقتناص قطع الخصم بتكتيكات ذكية.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ليفل 3 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div class="bg-brand-navy text-white text-center py-4 relative">
+                        <span class="absolute top-0 right-0 bg-brand-gold text-xs font-bold px-3 py-1 rounded-bl-lg">Level 3</span>
+                        <h3 class="text-xl font-black mt-2">المدافع الصلب</h3>
+                        <p class="text-sm text-gray-300">Solid Defender</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-book-open text-brand-gold ml-1"></i> المحتوى:</h4>
+                            <p class="text-gray-600 text-sm">الدفاع المتقدم - التكتيكات المركبة (الكشف والتشتيت) - أساسيات نهايات البيادق.</p>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-clipboard-check text-brand-gold ml-1"></i> متطلب الدخول:</h4>
+                            <p class="text-gray-600 text-sm">القدرة على تنفيذ التكتيكات الأساسية (الشوكة، الربط) بوضوح.</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-bullseye text-green-600 ml-1"></i> الهدف:</h4>
+                            <p class="text-gray-700 text-sm font-semibold">حماية القطع بذكاء وتقليل الأخطاء الفادحة (Blunders) بشكل كبير.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ليفل 4 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div class="bg-brand-navy text-white text-center py-4 relative">
+                        <span class="absolute top-0 right-0 bg-brand-gold text-xs font-bold px-3 py-1 rounded-bl-lg">Level 4</span>
+                        <h3 class="text-xl font-black mt-2">المخطط الاستراتيجي</h3>
+                        <p class="text-sm text-gray-300">Strategic Planner</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-book-open text-brand-gold ml-1"></i> المحتوى:</h4>
+                            <p class="text-gray-600 text-sm">تقييم الموقف - استغلال نقاط الضعف - بناء الهجوم المنظم - نهايات اللعب التكتيكية.</p>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-clipboard-check text-brand-gold ml-1"></i> متطلب الدخول:</h4>
+                            <p class="text-gray-600 text-sm">إتقان مهارات الدفاع ورؤية التكتيكات المضادة سريعاً.</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-bullseye text-green-600 ml-1"></i> الهدف:</h4>
+                            <p class="text-gray-700 text-sm font-semibold">القدرة على بناء خطة لعب طويلة واستغلال أخطاء الخصم الموضعية.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ليفل 5 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div class="bg-brand-navy text-white text-center py-4 relative">
+                        <span class="absolute top-0 right-0 bg-brand-gold text-xs font-bold px-3 py-1 rounded-bl-lg">Level 5</span>
+                        <h3 class="text-xl font-black mt-2">المحترف المتقدم</h3>
+                        <p class="text-sm text-gray-300">Advanced Master</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-book-open text-brand-gold ml-1"></i> المحتوى:</h4>
+                            <p class="text-gray-600 text-sm">التكتيكات العميقة - نهايات القطع المعقدة - الهجوم المباشر على الملك - اللعب الديناميكي.</p>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-clipboard-check text-brand-gold ml-1"></i> متطلب الدخول:</h4>
+                            <p class="text-gray-600 text-sm">القدرة على حساب النقلات لعدة خطوات للأمام ووضع خطط استراتيجية.</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-bullseye text-green-600 ml-1"></i> الهدف:</h4>
+                            <p class="text-gray-700 text-sm font-semibold">التقييم الدقيق للمواقف المعقدة واختيار أفضل النقلات التنافسية.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ليفل 6 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div class="bg-brand-navy text-white text-center py-4 relative">
+                        <span class="absolute top-0 right-0 bg-brand-gold text-xs font-bold px-3 py-1 rounded-bl-lg">Level 6</span>
+                        <h3 class="text-xl font-black mt-2">خبير الشطرنج</h3>
+                        <p class="text-sm text-gray-300">Chess Expert</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-book-open text-brand-gold ml-1"></i> المحتوى:</h4>
+                            <p class="text-gray-600 text-sm">التفكير العميق - النهايات الدقيقة - استراتيجيات متقدمة - فهم أعمق للبيادق.</p>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-clipboard-check text-brand-gold ml-1"></i> متطلب الدخول:</h4>
+                            <p class="text-gray-600 text-sm">مستوى تقييم عالٍ وخبرة واسعة في حل المواقف الشطرنجية المعقدة.</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <h4 class="font-bold text-brand-navy mb-1 text-sm"><i class="fa-solid fa-bullseye text-green-600 ml-1"></i> الهدف:</h4>
+                            <p class="text-gray-700 text-sm font-semibold">اللعب بمستوى بطولات احترافي وحل أعقد المواقف التكتيكية على الرقعة.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-black text-brand-navy mb-4">اختر الخطة التي تناسب رحلته</h2>
+                <p class="text-gray-600">حدّد المستوى وطريقة التعلّم لترى رسوم الدورة الخاصة بك.</p>
+                <div class="w-24 h-1.5 bg-brand-gold mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <div class="bg-brand-light rounded-3xl shadow-xl overflow-hidden border border-gray-200">
+                <div class="p-8">
+                    <!-- المستوى -->
+                    <div class="mb-8">
+                        <h4 class="font-bold text-brand-navy mb-4 text-lg">01 / المستوى المستهدف</h4>
+                        <div class="flex flex-wrap gap-3 justify-center md:justify-start" id="level-options">
+                            <button class="calculator-btn active w-12 h-12 rounded-xl font-bold text-xl border-2 border-gray-300 text-gray-500 transition-colors" data-level="1">1</button>
+                            <button class="calculator-btn w-12 h-12 rounded-xl font-bold text-xl border-2 border-gray-300 text-gray-500 hover:border-brand-navy hover:text-brand-navy transition-colors" data-level="2">2</button>
+                            <button class="calculator-btn w-12 h-12 rounded-xl font-bold text-xl border-2 border-gray-300 text-gray-500 hover:border-brand-navy hover:text-brand-navy transition-colors" data-level="3">3</button>
+                            <button class="calculator-btn w-12 h-12 rounded-xl font-bold text-xl border-2 border-gray-300 text-gray-500 hover:border-brand-navy hover:text-brand-navy transition-colors" data-level="4">4</button>
+                            <button class="calculator-btn w-12 h-12 rounded-xl font-bold text-xl border-2 border-gray-300 text-gray-500 hover:border-brand-navy hover:text-brand-navy transition-colors" data-level="5">5</button>
+                            <button class="calculator-btn w-12 h-12 rounded-xl font-bold text-xl border-2 border-gray-300 text-gray-500 hover:border-brand-navy hover:text-brand-navy transition-colors" data-level="6">6</button>
+                        </div>
+                    </div>
+
+                    <!-- نوع التدريب -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-brand-navy mb-4 text-lg">02 / نوع التدريس</h4>
+                        <div class="grid grid-cols-2 gap-4" id="type-options">
+                            <button class="type-btn active py-4 rounded-xl font-bold text-lg border-2 border-gray-300 text-gray-500 transition-colors" data-type="individual">
+                                <i class="fa-solid fa-user block text-xl mb-1"></i> فردي
+                            </button>
+                            <button class="type-btn py-4 rounded-xl font-bold text-lg border-2 border-gray-300 text-gray-500 hover:border-brand-navy transition-colors" data-type="group">
+                                <i class="fa-solid fa-users block text-xl mb-1"></i> مجموعة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- النتيجة (السعر) -->
+                <div class="bg-brand-navy text-center p-8 text-white relative">
+                    <p class="text-brand-gold text-sm font-bold mb-2">تكلفة الدورة بالريال السعودي</p>
+                    <div class="flex justify-center items-end gap-2 mb-6">
+                        <span id="final-price" class="text-6xl font-black text-white">150</span>
+                        <span class="text-xl font-bold text-brand-gold mb-2">ريال</span>
+                    </div>
+                    <a href="https://wa.me/201013441057" target="_blank" class="inline-block bg-brand-gold hover:bg-brand-goldHover text-white font-bold py-3 px-10 rounded-full transition-transform transform hover:scale-105 shadow-lg">
+                        احجز هذه الدورة
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-20 bg-brand-light">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-brand-navy mb-4">الأسئلة الشائعة</h2>
+                <div class="w-24 h-1.5 bg-brand-gold mx-auto rounded-full"></div>
+            </div>
+
+            <div class="space-y-4">
+                <!-- س1 -->
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-right font-bold text-brand-navy flex justify-between items-center focus:outline-none">
+                        <span>ما العمر المناسب لتعلم الشطرنج ؟</span>
+                        <i class="fa-solid fa-chevron-down text-brand-gold transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                        من سن 6 سنوات إلى 18 سنة. برنامجنا مصمم خصيصًا للأطفال في هذا العمر، مع أساليب تدريب تتناسب مع كل مرحلة عمرية.
+                    </div>
+                </div>
+
+                <!-- س2 -->
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-right font-bold text-brand-navy flex justify-between items-center focus:outline-none">
+                        <span>هل احتاج الى شراء شطرنج فى المنزل؟</span>
+                        <i class="fa-solid fa-chevron-down text-brand-gold transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                        لا، لا يحتاج الطفل إلى شراء شطرنج مادي، لأننا نوفّر له حسابًا خاصًا على منصة ChessKid. من خلال الحساب يستطيع حلّ التمارين، ولعب المباريات، كما يزوّدنا التطبيق بتقارير تفصيلية عن مستوى تقدّمه.
+                    </div>
+                </div>
+
+                <!-- س3 -->
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-right font-bold text-brand-navy flex justify-between items-center focus:outline-none">
+                        <span>هل يجب انهاء جميع المستويات ال 6 كاملة ؟</span>
+                        <i class="fa-solid fa-chevron-down text-brand-gold transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                        لا، ليس ضروريًا، لأن المستويات مصممة للإتقان ويمكن للطفل أن يكمل في أي وقت. الحد الأدنى هو مستويين لتأهيل الطفل على المشاركة في البطولات العالمية. ويحصل الطفل على شهادة معتمدة من Chess Go بعد كل مستوى.
+                    </div>
+                </div>
+
+                <!-- س4 -->
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-right font-bold text-brand-navy flex justify-between items-center focus:outline-none">
+                        <span>كيف يشارك الطفل فى البطولات؟</span>
+                        <i class="fa-solid fa-chevron-down text-brand-gold transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                        نقيم بطولة شهرية خاصة للأطفال المشاركين، مع جوائز للمراكز الثلاثة الأولى. يبدأ الطفل المشاركة ابتداءً من المستوى الثالث فما فوق، وللطلاب المتميزين هناك فرص للمشاركة في بطولات خارجية.
+                    </div>
+                </div>
+
+                <!-- س5 -->
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-right font-bold text-brand-navy flex justify-between items-center focus:outline-none">
+                        <span>ما مده التدريب والمتابعة الشاملة؟</span>
+                        <i class="fa-solid fa-chevron-down text-brand-gold transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                        كل مستوى مدته شهران، حصتين أسبوعيًا مدتها ساعة واحدة. بعد الحصة، يرسل المدرب تقرير بمستوي الطالب وبنهاية المستوى نرسل لكم تقريرًا مفصلًا جدًا.
+                    </div>
+                </div>
+
+                <!-- س6 -->
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-right font-bold text-brand-navy flex justify-between items-center focus:outline-none">
+                        <span>ما الفرق بين التدريب الجماعى والتدريب الخاص؟</span>
+                        <i class="fa-solid fa-chevron-down text-brand-gold transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                        <ul class="list-disc pr-5 space-y-1">
+                            <li><strong>التدريب الجماعي:</strong> مجموعة من 5 أطفال، حصتين أسبوعيًا، بسعر اقتصادي.</li>
+                            <li><strong>التدريب الخاص:</strong> تدريب فردي مع مدرب خاص، يختار ولي الأمر موعد التدريب مرتين أسبوعيًا، مع متابعة فردية دقيقة تركّز بالكامل على احتياجات الطفل.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- س7 -->
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-right font-bold text-brand-navy flex justify-between items-center focus:outline-none">
+                        <span>هل يوجد ضمان لاسترجاع المبلغ؟</span>
+                        <i class="fa-solid fa-chevron-down text-brand-gold transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                        نعم، يُعاد المبلغ المدفوع بعد الحصة الأولى فقط، في حال وجود أي شكوى من قِبل الأهل.
+                    </div>
+                </div>
+
+                <!-- س8 -->
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <button class="faq-btn w-full px-6 py-4 text-right font-bold text-brand-navy flex justify-between items-center focus:outline-none">
+                        <span>كيفيه التسجيل وحجز مكان لطفلى ؟</span>
+                        <i class="fa-solid fa-chevron-down text-brand-gold transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                        <ol class="list-decimal pr-5 space-y-2">
+                            <li>اختيار الباقة المناسبة (تدريب جماعي أو تدريب فردي) وإتمام الدفع.</li>
+                            <li>إذا كان لدى الطفل خبرة سابقة، نجري تقييمًا سريعًا لتحديد المستوى المناسب. أما إذا كان مبتدئًا، فنرشحه لمجموعات المستوى الأول مباشرة.</li>
+                            <li>بعد تحديد المستوى، سنعرض عليكم المواعيد المتاحة للمجموعة لاختيار الأنسب لظروفكم.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-brand-navy text-white pt-16 pb-8 border-t-8 border-brand-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10">
+                <!-- اللوجو ومعلومات -->
+                <div>
+                    <div class="bg-white p-2 rounded-xl inline-block mb-4">
+                        <!-- تم تكبير اللوجو في الفوتر أيضاً إلى h-20 ليناسب التغيير -->
+                        <img src="logo.jpg" alt="Chess Go Academy Logo" class="h-20 w-auto object-contain">
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        أكاديمية احترافية لتعليم الشطرنج، نصنع أبطال الغد بمنهجية علمية معتمدة لتنمية الذكاء والتفكير المنطقي للأطفال والمراهقين.
+                    </p>
+                    <a href="https://www.facebook.com/share/1CGZNBRrSu/" target="_blank" class="inline-flex items-center justify-center w-10 h-10 bg-white/10 text-white rounded-full hover:bg-brand-gold transition-colors">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
+
+                <!-- تواصل معنا -->
+                <div class="lg:col-span-2">
+                    <h4 class="text-lg font-bold text-white mb-6 border-b border-gray-700 pb-2">تواصل معنا</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center text-brand-gold">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div dir="ltr" class="text-right">
+                                <a href="tel:01013441057" class="block font-bold hover:text-brand-gold transition">01013441057</a>
+                                <a href="tel:01094199410" class="block font-bold hover:text-brand-gold transition">01094199410</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center text-brand-gold">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div dir="ltr" class="text-right">
+                                <a href="mailto:chessgoacademy01@gmail.com" class="block font-bold text-sm sm:text-base hover:text-brand-gold transition">
+                                    chessgoacademy01@gmail.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center text-gray-500 text-sm border-t border-gray-800 pt-8 mt-8">
+                &copy; 2026 Chess Go Academy. جميع الحقوق محفوظة.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // بيانات الأسعار المطلوبة (بالريال السعودي)
+            const pricingData = {
+                1: { individual: 150, group: 90 },
+                2: { individual: 210, group: 140 },
+                3: { individual: 210, group: 140 },
+                4: { individual: 270, group: 190 },
+                5: { individual: 270, group: 190 },
+                6: { individual: 350, group: 250 }
+            };
+
+            let currentLevel = 1;
+            let currentType = 'individual';
+
+            // عناصر الحاسبة
+            const levelBtns = document.querySelectorAll('.calculator-btn');
+            const typeBtns = document.querySelectorAll('.type-btn');
+            const finalPriceDisplay = document.getElementById('final-price');
+
+            // وظيفة تحديث السعر
+            function updateCalculator() {
+                // حساب السعر
+                const price = pricingData[currentLevel][currentType];
+                
+                // أنيميشن بسيط لتغيير الرقم
+                finalPriceDisplay.style.opacity = 0;
+                setTimeout(() => {
+                    finalPriceDisplay.textContent = price;
+                    finalPriceDisplay.style.opacity = 1;
+                }, 150);
+
+                // تحديث واجهة أزرار الليفل
+                levelBtns.forEach(btn => {
+                    if (parseInt(btn.getAttribute('data-level')) === currentLevel) {
+                        btn.classList.add('active');
+                        btn.classList.remove('text-gray-500', 'border-gray-300');
+                    } else {
+                        btn.classList.remove('active');
+                        btn.classList.add('text-gray-500', 'border-gray-300');
+                    }
+                });
+
+                // تحديث واجهة أزرار النوع
+                typeBtns.forEach(btn => {
+                    if (btn.getAttribute('data-type') === currentType) {
+                        btn.classList.add('active');
+                        btn.classList.remove('text-gray-500', 'border-gray-300');
+                    } else {
+                        btn.classList.remove('active');
+                        btn.classList.add('text-gray-500', 'border-gray-300');
+                    }
+                });
+            }
+
+            // إضافة مستمعي الأحداث لأزرار الليفل
+            levelBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    currentLevel = parseInt(e.target.closest('button').getAttribute('data-level'));
+                    updateCalculator();
+                });
+            });
+
+            // إضافة مستمعي الأحداث لأزرار النوع
+            typeBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    currentType = e.target.closest('button').getAttribute('data-type');
+                    updateCalculator();
+                });
+            });
+
+            // ------------------------------------
+            // منطق الأسئلة الشائعة (Accordion)
+            const faqBtns = document.querySelectorAll('.faq-btn');
+            faqBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const content = btn.nextElementSibling;
+                    const icon = btn.querySelector('i');
+                    
+                    // إغلاق الباقي
+                    document.querySelectorAll('.faq-content').forEach(el => {
+                        if (el !== content && !el.classList.contains('hidden')) {
+                            el.classList.add('hidden');
+                            el.previousElementSibling.querySelector('i').classList.remove('rotate-180');
+                            el.parentElement.classList.remove('border-brand-gold');
+                        }
+                    });
+
+                    // فتح/إغلاق الحالي
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                    
+                    if(!content.classList.contains('hidden')) {
+                        btn.parentElement.classList.add('border-brand-gold');
+                    } else {
+                        btn.parentElement.classList.remove('border-brand-gold');
+                    }
+                });
+            });
+
+            // ------------------------------------
+            // منطق الموبايل منيو
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('flex');
+            });
+        });
+    </script>
+</body>
+</html>
